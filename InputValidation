@@ -1,0 +1,78 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class InputValidation {
+
+	//Validation for user entered name
+	public static String inputStringValidation() {
+		Scanner sc = new Scanner(System.in);
+		while (!sc.hasNext("[A-Za-z]*")) {
+			System.out.println("That's not an Alphabets!\n" + "Please enter an Alphabets ::");
+			sc.next();
+		}
+		String studentName = sc.next();
+		System.out.println("Thank you! " + studentName + "\n");
+		return studentName;
+	}
+
+	//Validation for user entered values
+	public static int inputIntegerValidation() {
+		Scanner sc = new Scanner(System.in);
+		int number;
+		do {
+			System.out.println("(Please enter a positive number) ::");
+			while (!sc.hasNextInt()) {
+				System.out.println("That's not a number!\n" + "Please enter a positive number ::");
+				sc.next(); // this is important!
+			}
+			number = sc.nextInt();
+		} while (number <= 0);
+		System.out.println("Thank you! " + number + "\n");
+		return number;
+
+	}
+	
+	//Validation for user entered date
+	public static String inputDateValidation() {
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Date  ::");
+		String strDate = sc.next();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		simpleDateFormat.setLenient(false);
+		try {
+			Date date = simpleDateFormat.parse(strDate);
+			System.out.println("Valid date Format ! "+strDate);
+		} catch (ParseException e) {
+			System.out.println("Invalid Date Format " + strDate);
+			return inputDateValidation();
+		}
+		return strDate;
+
+	}
+	
+	//Validation for user entered email
+	public static String inputEmailValidation() {
+		Scanner sc = new Scanner(System.in);
+		String regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		String email="";
+		while(true)
+		{
+			email = sc.next();		
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(email);
+			if (matcher.matches() == true) {
+				System.out.println("Thanks !  " + email);
+				break;
+			} else {
+				System.out.println("Email is not valid \nPlease enter valid mail ::");
+			}	
+		}
+		return email;
+	}	
+	
+}
